@@ -14,6 +14,12 @@ in
   options.gtk.catppuccin =
     ctp.mkCatppuccinOpt "gtk"
     // {
+      package = mkOption {
+        type = types.package;
+        default = pkgs.catppuccin-gtk;
+        description = "Catppuccin package gtk";
+      };
+
       accent = ctp.mkAccentOpt "gtk";
       size = mkOption {
         type = types.enum [ "standard" "compact" ];
@@ -26,10 +32,11 @@ in
         description = "Catppuccin tweaks for gtk";
       };
 
-      cursor = ctp.mkCatppuccinOpt "gtk cursors"
-      // {
-        accent = ctp.mkBasicOpt "accent" cursorAccentType "gtk cursors";
-      };
+      cursor =
+        ctp.mkCatppuccinOpt "gtk cursors"
+        // {
+          accent = ctp.mkBasicOpt "accent" cursorAccentType "gtk cursors";
+        };
     };
 
   config = lib.mkIf enable {
@@ -47,8 +54,8 @@ in
           # use the light gtk theme for latte
           gtkTheme =
             if cfg.flavour == "latte"
-            then "light"
-            else "dark";
+            then "Light"
+            else "Dark";
         in
         {
           name = "Catppuccin-${flavourUpper}-${sizeUpper}-${accentUpper}-${gtkTheme}";
